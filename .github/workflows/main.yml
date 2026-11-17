@@ -1,0 +1,53 @@
+name: Build Apollo Launcher 4.4
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-14, windows-latest, ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+
+    defaults:
+      run:
+        working-directory: Apollo_4.4_Source
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller
+
+      - name: Build Apollo
+        run: pyinstaller --noconfirm --windowed --name Apollo main.py
+
+      - name: Pack macOS application
+        if: runner.os == 'macOS'
+        run: ditto -c -k --keepParent dist/Apollo.app Apollo-macOS.zip
+
+      - name: Upload macOS
+        if: runner.os == 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Apollo-macOS
+          path: Apollo_4.4_Source/Apollo-macOS.zip
+
+      - name: Upload Windows or Linux
+        if: runner.os != 'macOS'
+        uses: actions/upload-artifact@v4
+        with:
+          name: Apollo-${{ runner.os }}
+          path: Apollo_4.4_Source/dist/
