@@ -1,0 +1,4 @@
+# Apollo 5.0
+Upload the contents of this folder at repository root, including .github/workflows/main.yml. In Actions choose Build Apollo 5, then download the platform artifact. macOS: unpack the inner Apollo-macOS.zip. Unsigned builds may need approval in Privacy & Security. No terminal is needed to build via GitHub. Existing workflows from 4.4 should be replaced. 
+
+Use Versions to install vanilla releases or snapshots. Existing Fabric profiles can be selected, but Fabric installation/repair is not implemented. Java may need to be selected manually (Java 21 for Minecraft 1.21.1). Local single-player only; Microsoft authentication is not implemented. Use a legally acquired game. Eco settings modify options.txt and make a backup. No runtime benchmarks or native launch tests have been performed. Android/iOS and Bedrock are not supported. Code editor does not execute code. 
